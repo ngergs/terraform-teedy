@@ -7,6 +7,9 @@ variable "project_name" {
 variable "region" {
   type = string
 }
+variable "size" {
+  type = string
+}
 variable "desktop_public_ssh_key" {
   type = string
 }

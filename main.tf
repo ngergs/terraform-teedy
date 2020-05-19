@@ -19,7 +19,7 @@ resource "digitalocean_ssh_key" "desktop_public" {
 # project
 ################
 resource "digitalocean_project" "teedy" {
-  name        = "teedy"
+  name        = var.project_name
   description = "A project to experiment with the teedy dms"
   purpose = "Web Application" 
   environment = "Development" 
@@ -35,8 +35,8 @@ data "digitalocean_volume" "teedy" {
 resource "digitalocean_droplet" "teedy" {
   image  = "docker-18-04"
   name   = "teedy"
-  region = "fra1"
-  size   = "s-1vcpu-1gb"
+  region = var.region
+  size   = var.size
   ssh_keys = [digitalocean_ssh_key.desktop_public.id, digitalocean_ssh_key.terraform_public.id]
   volume_ids  = [data.digitalocean_volume.teedy.id]
   provisioner "file" {
