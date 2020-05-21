@@ -23,7 +23,7 @@ resource "digitalocean_project" "teedy" {
   description = "A project to experiment with the teedy dms"
   purpose = "Web Application" 
   environment = "Development" 
-  resources = [digitalocean_droplet.teedy.urn]
+  resources = [digitalocean_droplet.teedy.urn, digitalocean_domain.teedy.urn]
 }
 
 ################
@@ -40,8 +40,8 @@ resource "digitalocean_droplet" "teedy" {
   ssh_keys = [digitalocean_ssh_key.desktop_public.id, digitalocean_ssh_key.terraform_public.id]
   volume_ids  = [data.digitalocean_volume.teedy.id]
   provisioner "file" {
-    source      = "files/docker-compose.yml"
-    destination = "/root/docker-compose.yml"
+    source      = "files/"
+    destination = "/root/"
     connection {
         host = digitalocean_droplet.teedy.ipv4_address
         user = "root"
@@ -50,7 +50,7 @@ resource "digitalocean_droplet" "teedy" {
     }
   }
   provisioner "remote-exec" {
-    script = "files/init.sh"
+    script = "init.sh"
     connection {
         host = digitalocean_droplet.teedy.ipv4_address
         user = "root"
@@ -59,7 +59,24 @@ resource "digitalocean_droplet" "teedy" {
     }
   }
 }
+output "droplet_ip_addr" {
+  value = digitalocean_droplet.teedy.ipv4_address
+  description = "ipv4 address of the created droplet"
+}
 
+################
+# domain/dns
+################
+resource "digitalocean_domain" "teedy" {
+  name       = var.domain
+  ip_address = digitalocean_droplet.teedy.ipv4_address
+}
+resource "digitalocean_record" "teedy-www" {
+ domain = digitalocean_domain.teedy.name
+ type = "CNAME"
+ name = "www"
+ value = "@"
+}
 ################
 # initial volume
 ################

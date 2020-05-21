@@ -19,4 +19,7 @@ variable "terraform_public_ssh_key" {
 variable "terraform_private_ssh_key" {
   type = string
 }
+variable "domain" {
+  type = string
+}
 
