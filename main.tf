@@ -80,7 +80,7 @@ resource "digitalocean_record" "teedy-www" {
 ################
 # initial volume
 ################
-#resource "digitalocean_volume" "teedy_volume" {
+#resource "digitalocean_volume" "teedy" {
 #  region                  = "fra1"
 #  name                    = "teedy-volume"
 #  size                    = 10
