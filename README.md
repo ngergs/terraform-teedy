@@ -9,7 +9,7 @@ Adjust the terraform.tfvars:
 * do_token has to be your DigitalOcean access token.
 * domain is required for the domain entry, if you don't own a domain remove the corresponding part from the main.tf.
 Adjust the nginx.conf to remove tls if desired, else adjust the domain name.
-* Now just run terraform init followed up by terraform apply / destroy as usual.
+* Now just run terraform init followed up by terraform apply / destroy as usual. Remeber to run apt-get dist-upgrade manually afterwards (requires some non-trivial interactions) followed by a system restart.
 
 ## What is created at digitalocean?
 * One droplet with 1 cpu and 1gb ram droplet with an attached volume.
